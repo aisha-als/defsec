@@ -44,7 +44,7 @@ var CheckNoPublicIngressSgr = rules.Register(
 	},
 	func(s *state.State) (results scan.Results) {
 		for _, group := range s.AWS.EC2.SecurityGroups {
-			for _, rule := range group.IngressRules {
+			for _, rule := range append(group.IngressRules) {
 				var failed bool
 				for _, block := range rule.CIDRs {
 					if cidr.IsPublic(block.Value()) && cidr.CountAddresses(block.Value()) > 1 {
